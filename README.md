@@ -30,8 +30,8 @@ Step 7: Save and run the application.
 ```
 /*
 Program to print the DatabaseTable using the SQLite”.
-Developed by        : Swetha.K.P
-Registration Number : 212220230053
+Developed by        : Gowri M
+Registration Number : 212220230019
 */
 ```
 ### MainActivity.java
