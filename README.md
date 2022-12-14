@@ -37,7 +37,7 @@ Registration Number : 212220230019
 */
 ```
 ### MainActivity.java
-```
+```java
 package com.example.sqlitedatabase;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -76,30 +76,17 @@ public class MainActivity extends AppCompatActivity {
         dbManager.insert(editUserName.getText().toString(),editUserPassword.getText().toString());
     }
 
-    public void btnFetchPressed(View v){
-        Cursor cursor=dbManager.fetch();
-        if (cursor.moveToFirst())
-        {
-            do{
-                @SuppressLint("Range") String ID=cursor.getString(cursor.getColumnIndex(DatabaseHelper.USER_ID));
-                @SuppressLint("Range") String username=cursor.getString(cursor.getColumnIndex(DatabaseHelper.USER_NAME));
-                @SuppressLint("Range") String password=cursor.getString(cursor.getColumnIndex(DatabaseHelper.USER_PASSWORD));
-                Log.i("DATABASE_TAG","I have read ID : "+ID+" Username : "+username+" password : "+password);
-            }while(cursor.moveToNext());
-        }
-    }
+    
 
     public void btnUpdatePressed(View v){
         dbManager.update(Long.parseLong(editUserID.getText().toString()),editUserName.getText().toString(),editUserPassword.getText().toString());
     }
 
-    public void btnDeletePressed(View v){
-        dbManager.delete(Long.parseLong(editUserID.getText().toString()));
-    }
+   
 }
 ```
 ### DatabaseManager.java
-```
+```java
 package com.example.sqlitedatabase;
 
 import android.content.ContentValues;
@@ -131,14 +118,7 @@ public class DatabaseManager {
         contentValues.put(DatabaseHelper.USER_PASSWORD,password);
         database.insert(DatabaseHelper.DATABASE_TABLE,null,contentValues);
     }
-    public Cursor fetch(){
-        String [] columns= new String[]{DatabaseHelper.USER_ID,DatabaseHelper.USER_NAME,DatabaseHelper.USER_PASSWORD};
-        Cursor cursor=database.query(DatabaseHelper.DATABASE_TABLE,columns,null,null,null,null,null);
-        if(cursor!=null){
-            cursor.moveToFirst();
-        }
-        return cursor;
-    }
+    
     public int update(long _id,String username,String password){
         ContentValues contentValues=new ContentValues();
         contentValues.put(DatabaseHelper.USER_NAME,username);
@@ -146,15 +126,12 @@ public class DatabaseManager {
         int ret = database.update(DatabaseHelper.DATABASE_TABLE,contentValues,DatabaseHelper.USER_ID+"="+_id,null);
         return ret;
     }
-    public void delete(long id){
-        database.delete(DatabaseHelper.DATABASE_TABLE,DatabaseHelper.USER_ID,null);
-
-    }
+    
 
 }
 ```
 ### DatabaseHelper.java
-```
+```java
 package com.example.sqlitedatabase;
 
 import android.content.Context;
@@ -188,7 +165,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 }
 ```
 ### activity_main.xml
-```
+```java
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -259,21 +236,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextUserName" />
 
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/teal_200"
-        android:backgroundTintMode="multiply"
-        android:onClick="btnFetchPressed"
-        android:text="Fetch"
-
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.743"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.475" />
+    
 
     <Button
         android:id="@+id/button"
@@ -308,23 +271,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.623" />
 
-    <Button
-        android:id="@+id/button4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/teal_200"
-        android:backgroundTintMode="multiply"
-
-        android:onClick="btnDeletePressed"
-        android:text="Delete"
-
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.177"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.623" />
-
+    
     <TextView
         android:id="@+id/textView"
         android:layout_width="101dp"
